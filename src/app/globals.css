@@ -1113,7 +1113,13 @@ section[id] {
       var(--color-burgundy-800) 0%,
       var(--color-burgundy-950) 78%
     );
-    --p: 0;
+    --layer-bg-y: 0px;
+    --layer-globe-x: 0px;
+    --layer-globe-y: 0px;
+    --layer-globe-rotation: 0deg;
+    --layer-compass-y: 0px;
+    --layer-compass-rotation: 0deg;
+    --layer-route-y: 0px;
   }
   .hero-scene {
     position: absolute;
@@ -1124,21 +1130,21 @@ section[id] {
     pointer-events: none;
   }
   .layer-bg {
-    transform: translate3d(0, calc(var(--p) * 30px), 0);
+    transform: translate3d(0, var(--layer-bg-y), 0);
   }
   .layer-globe {
-    transform: translate3d(calc(var(--p) * -14px), calc(var(--p) * -50px), 0)
-      rotate(calc(var(--p) * 10deg));
+    transform: translate3d(var(--layer-globe-x), var(--layer-globe-y), 0)
+      rotate(var(--layer-globe-rotation));
     transform-box: fill-box;
     transform-origin: center;
   }
   .layer-compass {
-    transform: translate3d(0, calc(var(--p) * -95px), 0) rotate(calc(var(--p) * 55deg));
+    transform: translate3d(0, var(--layer-compass-y), 0) rotate(var(--layer-compass-rotation));
     transform-box: fill-box;
     transform-origin: center;
   }
   .layer-route {
-    transform: translate3d(0, calc(var(--p) * -16px), 0);
+    transform: translate3d(0, var(--layer-route-y), 0);
   }
   .meridian {
     transform-box: fill-box;

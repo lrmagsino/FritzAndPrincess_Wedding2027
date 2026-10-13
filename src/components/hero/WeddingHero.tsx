@@ -61,8 +61,18 @@ export function WeddingHero() {
       );
     };
 
+    const setParallax = (progress: number) => {
+      hero.style.setProperty("--layer-bg-y", `${progress * 30}px`);
+      hero.style.setProperty("--layer-globe-x", `${progress * -14}px`);
+      hero.style.setProperty("--layer-globe-y", `${progress * -50}px`);
+      hero.style.setProperty("--layer-globe-rotation", `${progress * 10}deg`);
+      hero.style.setProperty("--layer-compass-y", `${progress * -95}px`);
+      hero.style.setProperty("--layer-compass-rotation", `${progress * 55}deg`);
+      hero.style.setProperty("--layer-route-y", `${progress * -16}px`);
+    };
+
     if (reduced) {
-      hero.style.setProperty("--p", "0");
+      setParallax(0);
       place(REDUCED_PROGRESS, 1);
       return;
     }
@@ -78,7 +88,7 @@ export function WeddingHero() {
     const update = () => {
       frame = 0;
       const raw = clamp(window.scrollY / (hero.offsetHeight * 0.85));
-      hero.style.setProperty("--p", raw.toFixed(4));
+      setParallax(raw);
       place(START_PROGRESS + (1 - START_PROGRESS) * raw, raw);
     };
     const onScroll = () => {
