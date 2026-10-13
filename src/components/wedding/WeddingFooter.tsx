@@ -20,6 +20,9 @@ export function WeddingFooter() {
       >
         Back to top
       </a>
+      <p className="label mt-10 text-xs tracking-[0.14em] text-silver-300">
+        Created by Lenj Magsino
+      </p>
     </footer>
   );
 }

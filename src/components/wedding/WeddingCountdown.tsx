@@ -63,7 +63,10 @@ export function WeddingCountdown() {
       ) : (
         <dl className="countdown-grid" aria-label="Countdown to April 23, 2027">
           {values.map(([key, label]) => (
-            <div key={key} className="countdown-unit">
+            <div
+              key={key}
+              className={`countdown-unit${key === "seconds" ? " countdown-unit-seconds" : ""}`}
+            >
               <dt className="label">{label}</dt>
               <dd className="countdown-value">
                 <time aria-label={countdown ? `${countdown[key]} ${label}` : "Loading"}>
