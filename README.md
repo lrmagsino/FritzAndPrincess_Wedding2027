@@ -1,3 +1,5 @@
+<img width="1536" height="1024" alt="Burgundy travel wedding monogram" src="https://github.com/user-attachments/assets/d663e587-a1d7-40a6-9145-1080c789acb7" />
+
 # Princess and Fritz Wedding
 
 The official wedding website and digital invitation platform for the wedding of **Princess and Fritz**.
