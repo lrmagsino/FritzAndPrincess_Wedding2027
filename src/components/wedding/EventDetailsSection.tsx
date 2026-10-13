@@ -96,7 +96,7 @@ function EventDetailsModal({
         <EventImage event={event} large />
         <div className="event-dialog-content">
           <p className="label eyebrow">Wedding day · {event.title}</p>
-          <h3 id="event-dialog-title" className="display">
+          <h3 id="event-dialog-title" className="display" tabIndex={-1}>
             {event.title}
           </h3>
           <p className="event-dialog-description">{event.description}</p>
@@ -149,7 +149,7 @@ function EventDetailsModal({
                 </p>
               </>
             )}
-            <button type="button" className="btn" onClick={onRequestClose} autoFocus>
+            <button type="button" className="btn" onClick={onRequestClose}>
               Close details
             </button>
           </div>
@@ -169,7 +169,11 @@ export function EventDetailsSection() {
   >(null);
 
   useEffect(() => {
-    if (activeEvent && !dialogRef.current?.open) dialogRef.current?.showModal();
+    const dialog = dialogRef.current;
+    if (activeEvent && dialog && !dialog.open) {
+      dialog.showModal();
+      dialog.querySelector<HTMLElement>("#event-dialog-title")?.focus({ preventScroll: true });
+    }
   }, [activeEvent]);
 
   const openDetails = (event: WeddingEvent) => {
