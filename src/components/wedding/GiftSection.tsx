@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import { asset } from "@/lib/assets";
 import { Section } from "./Section";
 import { Reveal } from "./Reveal";
 
@@ -54,7 +55,7 @@ export function GiftSection() {
                 aria-label={`Copy BPI account number ${ACCOUNT_NUMBER}`}
               >
                 <Image
-                  src="/gifts/bpi-qr.png"
+                  src={asset("/gifts/bpi-qr.png")}
                   alt="BPI InstaPay QR code. Tapping this image copies the account number."
                   width={768}
                   height={863}
