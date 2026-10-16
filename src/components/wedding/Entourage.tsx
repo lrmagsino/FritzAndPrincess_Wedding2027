@@ -11,8 +11,12 @@ type EntourageCategoryData = (typeof entourage)[number];
 type EntourageGroupData = EntourageCategoryData["groups"][number];
 
 function EntourageGroup({ group }: { group: EntourageGroupData }) {
+  const groupClass = group.title
+    ? ` entourage-group-${group.title.toLowerCase().replace(/\s+/g, "-")}`
+    : "";
+
   return (
-    <div className={`entourage-group${group.title ? " entourage-group-titled" : ""}`}>
+    <div className={`entourage-group${group.title ? " entourage-group-titled" : ""}${groupClass}`}>
       {group.title ? <h4 className="label entourage-subtitle">{group.title}</h4> : null}
       <ul className="entourage-list">
         {group.members.map((member, index) => (
@@ -29,6 +33,54 @@ function EntourageGroup({ group }: { group: EntourageGroupData }) {
   );
 }
 
+function InvitationPageGroups({ category }: { category: EntourageCategoryData }) {
+  if (category.id !== "invitation-page-two") {
+    return (
+      <div className={`entourage-groups entourage-groups-${category.id}`}>
+        {category.groups.map((group) => (
+          <EntourageGroup key={`${category.id}-${group.title || category.id}`} group={group} />
+        ))}
+      </div>
+    );
+  }
+
+  const bestMan = category.groups.find((group) => group.title === "Best Man");
+  const matron = category.groups.find((group) => group.title === "Matron of Honor");
+  const maid = category.groups.find((group) => group.title === "Maid of Honor");
+  const weddingParty = category.groups.filter((group) =>
+    ["Groomsmen", "Bridesmaids"].includes(group.title),
+  );
+  const bearers = category.groups.filter((group) =>
+    ["Ring Bearer", "Coin Bearer", "Bible Bearer", "Herald Bearer"].includes(group.title),
+  );
+  const flowerGirls = category.groups.find((group) => group.title === "Flower Girls");
+
+  return (
+    <div className="entourage-page-two-groups">
+      <div className="entourage-secondary-honors" role="group" aria-label="Honor attendants">
+        {[bestMan, matron, maid].map((group) =>
+          group ? <EntourageGroup key={group.title} group={group} /> : null,
+        )}
+      </div>
+      <div className="entourage-secondary-party" role="group" aria-label="Wedding party">
+        {weddingParty.map((group) => (
+          <EntourageGroup key={group.title} group={group} />
+        ))}
+      </div>
+      <div className="entourage-secondary-bearers" role="group" aria-label="Ceremony attendants">
+        {bearers.map((group) => (
+          <EntourageGroup key={group.title} group={group} />
+        ))}
+      </div>
+      {flowerGirls ? (
+        <div className="entourage-secondary-flower-girls">
+          <EntourageGroup group={flowerGirls} />
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
 export function EntourageCategory({ category }: { category: EntourageCategoryData }) {
   return (
     <article className={`entourage-card entourage-card-${category.id}`}>
@@ -41,11 +93,7 @@ export function EntourageCategory({ category }: { category: EntourageCategoryDat
         <h3 className="display">{category.title}</h3>
         <span className="entourage-heading-rule" aria-hidden="true" />
       </header>
-      <div className="entourage-groups">
-        {category.groups.map((group) => (
-          <EntourageGroup key={`${category.id}-${group.title || category.id}`} group={group} />
-        ))}
-      </div>
+      <InvitationPageGroups category={category} />
     </article>
   );
 }
@@ -63,6 +111,7 @@ export function Entourage() {
   const categoryFrame = useRef<HTMLDivElement>(null);
   const categoryCard = useRef<HTMLDivElement>(null);
   const categoryBusy = useRef(false);
+  const touchStartX = useRef<number | null>(null);
   const reducedMotion = useReducedMotion();
   const category = entourage[activeCategory];
 
@@ -176,7 +225,7 @@ export function Entourage() {
   return (
     <Section
       id="entourage"
-      tone="dark"
+      tone="light"
       eyebrow="Entourage"
       title="The people beside us"
       intro="With love and gratitude, we honor the family and friends who will stand beside us."
@@ -229,11 +278,21 @@ export function Entourage() {
             className="entourage-carousel"
             role="group"
             aria-roledescription="carousel"
-            aria-label="Wedding entourage categories"
+            aria-label="Two-page wedding entourage invitation"
             onKeyDown={handleCategoryKeys}
+            onTouchStart={(event) => {
+              touchStartX.current = event.changedTouches[0]?.clientX ?? null;
+            }}
+            onTouchEnd={(event) => {
+              const startX = touchStartX.current;
+              const endX = event.changedTouches[0]?.clientX;
+              touchStartX.current = null;
+              if (startX === null || endX === undefined || Math.abs(endX - startX) < 48) return;
+              showCategory(activeCategory + (endX < startX ? 1 : -1));
+            }}
           >
             <p className="sr-only" aria-live="polite" aria-atomic="true">
-              {category.title}, category {activeCategory + 1} of {entourage.length}
+              {category.title}, invitation page {activeCategory + 1} of {entourage.length}
             </p>
             <div ref={categoryFrame} className="entourage-slide-frame">
               <Reveal delay={0} className="entourage-reveal">
@@ -241,7 +300,7 @@ export function Entourage() {
                   ref={categoryCard}
                   role="group"
                   aria-roledescription="slide"
-                  aria-label={`${category.title}, ${activeCategory + 1} of ${entourage.length}`}
+                  aria-label={`${category.title}, page ${activeCategory + 1} of ${entourage.length}`}
                 >
                   <EntourageCategory category={category} />
                 </div>
@@ -254,7 +313,7 @@ export function Entourage() {
                 className="entourage-step-button"
                 onClick={() => showCategory(activeCategory - 1)}
                 disabled={activeCategory === 0 || isChangingCategory}
-                aria-label="Previous entourage category"
+                aria-label="Previous invitation page"
               >
                 <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                   <path d="m15 5-7 7 7 7" />
@@ -270,7 +329,7 @@ export function Entourage() {
                 className="entourage-step-button"
                 onClick={() => showCategory(activeCategory + 1)}
                 disabled={activeCategory === entourage.length - 1 || isChangingCategory}
-                aria-label="Next entourage category"
+                aria-label="Next invitation page"
               >
                 <span>Next</span>
                 <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -278,17 +337,13 @@ export function Entourage() {
                 </svg>
               </button>
             </div>
-            <div
-              className="entourage-pagination"
-              role="group"
-              aria-label="Choose entourage category"
-            >
+            <div className="entourage-pagination" role="group" aria-label="Choose invitation page">
               {entourage.map((item, index) => (
                 <button
                   key={item.id}
                   type="button"
                   className="entourage-pagination-dot"
-                  aria-label={`Show ${item.title}`}
+                  aria-label={`Show invitation page ${index + 1}: ${item.title}`}
                   aria-current={index === activeCategory ? "true" : undefined}
                   disabled={isChangingCategory || index === activeCategory}
                   onClick={() => showCategory(index)}

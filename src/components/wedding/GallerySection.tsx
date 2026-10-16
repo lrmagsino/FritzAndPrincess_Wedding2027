@@ -20,7 +20,7 @@ export function GallerySection() {
   return (
     <Section
       id="gallery"
-      tone="dark"
+      tone="light"
       eyebrow="Gallery"
       title="Moments along the way"
       intro="Photographs will be added as we collect them. Illustrated placeholders hold the places for now."

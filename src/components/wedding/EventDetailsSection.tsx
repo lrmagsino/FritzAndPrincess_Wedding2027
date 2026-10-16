@@ -7,8 +7,26 @@ import { weddingEvents } from "@/lib/wedding";
 import { Section } from "./Section";
 import { Reveal } from "./Reveal";
 import { AirplaneFlightOverlay } from "./AirplaneFlightOverlay";
+import { WeddingTimeline } from "./WeddingTimeline";
 
 type WeddingEvent = (typeof weddingEvents)[number];
+
+function getValidMapUrl(value: string) {
+  const mapUrl = value.trim();
+  if (!mapUrl) return null;
+
+  try {
+    const parsed = new URL(mapUrl);
+    return parsed.protocol === "https:" &&
+      (parsed.hostname === "google.com" ||
+        parsed.hostname.endsWith(".google.com") ||
+        parsed.hostname === "maps.app.goo.gl")
+      ? parsed.href
+      : null;
+  } catch {
+    return null;
+  }
+}
 
 function EventImage({ event, large = false }: { event: WeddingEvent; large?: boolean }) {
   return (
@@ -55,21 +73,7 @@ function EventDetailsModal({
   onRequestClose: () => void;
   onClosed: () => void;
 }) {
-  const mapUrl = event.mapUrl.trim();
-  const validMapUrl = (() => {
-    if (!mapUrl) return null;
-    try {
-      const parsed = new URL(mapUrl);
-      return parsed.protocol === "https:" &&
-        (parsed.hostname === "google.com" ||
-          parsed.hostname.endsWith(".google.com") ||
-          parsed.hostname === "maps.app.goo.gl")
-        ? parsed.href
-        : null;
-    } catch {
-      return null;
-    }
-  })();
+  const validMapUrl = getValidMapUrl(event.mapUrl);
 
   return (
     <dialog
@@ -143,7 +147,7 @@ function EventDetailsModal({
                   Google Maps link to be added
                 </button>
                 <p className="event-map-note" role="status">
-                  {mapUrl
+                  {event.mapUrl.trim()
                     ? "The Google Maps link is not a valid HTTPS Google Maps URL yet."
                     : "Google Maps directions will be added once the location is confirmed."}
                 </p>
@@ -201,42 +205,64 @@ export function EventDetailsSection() {
   return (
     <Section
       id="details"
-      tone="light"
+      tone="dark"
       eyebrow="The celebration"
       title="Ceremony & Reception"
-      intro="Join us on April 23, 2027. Event times and remaining location details will be announced."
+      intro="Find our ceremony and reception venues below. We look forward to celebrating with you."
     >
       <div className="event-card-grid">
-        {weddingEvents.map((event, index) => (
-          <Reveal key={event.id} delay={index * 90}>
-            <button
-              type="button"
-              className="event-card"
-              onClick={() => openDetails(event)}
-              disabled={Boolean(flight) || Boolean(activeEvent)}
-              aria-label={`View ${event.title} details`}
-            >
-              <EventImage event={event} />
-              <span className="event-card-content">
-                <span className="label eyebrow">{event.date}</span>
-                <span className="display event-card-title">{event.title}</span>
-                <span className="event-card-description">{event.description}</span>
-                <span className="event-card-summary">
-                  <span>{event.venue}</span>
-                  <span>{event.location}</span>
-                  <span>Time: {event.time}</span>
-                </span>
-                <span className="event-card-action">
-                  <span>View event details</span>
-                  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                    <path d="M5 12h14m-6-6 6 6-6 6" />
-                  </svg>
-                </span>
-              </span>
-            </button>
-          </Reveal>
-        ))}
+        {weddingEvents.map((event, index) => {
+          const mapUrl = getValidMapUrl(event.mapUrl);
+          return (
+            <Reveal key={event.id} delay={index * 90}>
+              <article className="event-card-wrap">
+                <button
+                  type="button"
+                  className="event-card"
+                  onClick={() => openDetails(event)}
+                  disabled={Boolean(flight) || Boolean(activeEvent)}
+                  aria-label={`View ${event.title} details`}
+                >
+                  <EventImage event={event} />
+                  <span className="event-card-content">
+                    <span className="label eyebrow">{event.date}</span>
+                    <span className="display event-card-title">{event.title}</span>
+                    <span className="event-card-venue">{event.venue}</span>
+                    <span className="event-card-description">{event.description}</span>
+                    <span className="event-card-summary">
+                      <span className="event-card-address">{event.address}</span>
+                      <span className="event-card-location">{event.location}</span>
+                      <span className="event-card-time">Begins at {event.time}</span>
+                    </span>
+                    <span className="event-card-action">
+                      <span>View event details</span>
+                      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                        <path d="M5 12h14m-6-6 6 6-6 6" />
+                      </svg>
+                    </span>
+                  </span>
+                </button>
+                {mapUrl ? (
+                  <a
+                    className="btn btn-solid event-map-action"
+                    href={mapUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`View ${event.title} in Google Maps (opens in a new tab)`}
+                  >
+                    View Map <span aria-hidden="true">↗</span>
+                  </a>
+                ) : (
+                  <span className="btn event-map-action" aria-disabled="true">
+                    Map link to be announced
+                  </span>
+                )}
+              </article>
+            </Reveal>
+          );
+        })}
       </div>
+      <WeddingTimeline embedded />
       {activeEvent ? (
         <EventDetailsModal
           event={activeEvent}

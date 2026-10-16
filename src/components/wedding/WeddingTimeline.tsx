@@ -155,9 +155,52 @@ function TimelineFlight() {
   );
 }
 
-export function WeddingTimeline() {
+export function WeddingTimeline({ embedded = false }: { embedded?: boolean }) {
   const railRef = useRef<HTMLOListElement>(null);
   useScrollLinkedProgress(railRef);
+  const TimelineTitle = embedded ? "h4" : "h3";
+
+  const timelineItems = (
+    <ol ref={railRef} className="rail wedding-timeline">
+      {timeline.map((item, index) => (
+        <Fragment key={item.title}>
+          <li className={`timeline-item${item.highlight ? " timeline-item-highlight" : ""}`}>
+            <time className="label timeline-time" dateTime={item.dateTime}>
+              {item.time}
+            </time>
+            <span className="timeline-marker" aria-hidden="true">
+              <TimelineIcon name={item.icon} />
+            </span>
+            <Reveal delay={Math.min(index * 40, 360)} className="timeline-item-content">
+              <TimelineTitle className="display timeline-title">{item.title}</TimelineTitle>
+            </Reveal>
+          </li>
+          {index === 2 ? <TimelineFlight key="ceremony-to-reception-flight" /> : null}
+        </Fragment>
+      ))}
+    </ol>
+  );
+
+  if (embedded) {
+    return (
+      <div
+        id="timeline"
+        className="timeline-embedded"
+        tabIndex={-1}
+        role="region"
+        aria-labelledby="timeline-title"
+      >
+        <h3 id="timeline-title" className="display timeline-embedded-title">
+          The day, in order
+        </h3>
+        <p className="muted timeline-embedded-intro">
+          A day filled with love, laughter, memories, and celebrations. Here is how we will journey
+          through our wedding day together.
+        </p>
+        {timelineItems}
+      </div>
+    );
+  }
 
   return (
     <Section
@@ -168,24 +211,7 @@ export function WeddingTimeline() {
       intro="A day filled with love, laughter, memories, and celebrations. Here is how we will journey through our wedding day together."
       narrow
     >
-      <ol ref={railRef} className="rail wedding-timeline">
-        {timeline.map((item, index) => (
-          <Fragment key={item.title}>
-            <li className={`timeline-item${item.highlight ? " timeline-item-highlight" : ""}`}>
-              <time className="label timeline-time" dateTime={item.dateTime}>
-                {item.time}
-              </time>
-              <span className="timeline-marker" aria-hidden="true">
-                <TimelineIcon name={item.icon} />
-              </span>
-              <Reveal delay={Math.min(index * 40, 360)} className="timeline-item-content">
-                <h3 className="display timeline-title">{item.title}</h3>
-              </Reveal>
-            </li>
-            {index === 2 ? <TimelineFlight key="ceremony-to-reception-flight" /> : null}
-          </Fragment>
-        ))}
-      </ol>
+      {timelineItems}
     </Section>
   );
 }

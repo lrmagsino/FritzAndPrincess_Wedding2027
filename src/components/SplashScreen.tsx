@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState, type KeyboardEvent } from "re
 import { usePathname } from "next/navigation";
 import { AirplaneTransition } from "./hero/AirplaneTransition";
 import { OpenInvitationButton } from "./hero/OpenInvitationButton";
-import { WeddingLogo } from "./hero/WeddingLogo";
+import { SplashAtmosphere, SplashLogoArtwork } from "./hero/SplashTravelEffects";
 import { useReducedMotion } from "@/lib/motion";
 
 export function SplashScreen({ children }: { children: React.ReactNode }) {
@@ -147,9 +147,10 @@ export function SplashScreen({ children }: { children: React.ReactNode }) {
           aria-modal="true"
           onKeyDown={keepFocusInCover}
         >
+          <SplashAtmosphere />
           <div className="splash-content">
-            <p className="label text-silver-300">A celebration of love &amp; a life in motion</p>
-            <WeddingLogo variant="full" tone="light" className="splash-logo" />
+            <p className="label splash-kicker">A celebration of love &amp; a life in motion</p>
+            <SplashLogoArtwork />
             <h1 id="splash-title" className="sr-only">
               Fritz and Princess wedding invitation
             </h1>

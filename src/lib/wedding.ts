@@ -17,14 +17,15 @@ export const couple = {
 
 export const navLinks = [
   { id: "welcome", label: "Home" },
+  { id: "countdown", label: "Countdown" },
+  { id: "calendar", label: "Wedding Calendar" },
   { id: "story", label: "Our Story" },
-  { id: "details", label: "Wedding Details" },
   { id: "entourage", label: "Entourage" },
-  { id: "dress-code", label: "Dress Code" },
-  { id: "timeline", label: "Timeline" },
+  { id: "details", label: "Ceremony & Reception" },
+  { id: "reminders", label: "Friendly Reminders" },
   { id: "wishes", label: "Wishes & Prayers" },
-  { id: "rsvp", label: "RSVP" },
   { id: "gallery", label: "Gallery" },
+  { id: "rsvp", label: "RSVP" },
 ];
 
 export const storyMoments = [
@@ -151,9 +152,17 @@ export interface EntourageCategory {
 
 export const entourage: EntourageCategory[] = [
   {
-    id: "principal-sponsors",
-    title: "Principal Sponsors",
+    id: "invitation-page-one",
+    title: "With the Blessing of Our Families",
     groups: [
+      {
+        title: "Parents of the Groom",
+        members: [{ name: "Juliben Empleo" }, { name: "Jomely Viente" }],
+      },
+      {
+        title: "Parents of the Bride",
+        members: [{ name: "Roy Gayapanao" }, { name: "Jocelyn Gayapanao" }],
+      },
       {
         title: "Male Principal Sponsors",
         members: [
@@ -161,8 +170,8 @@ export const entourage: EntourageCategory[] = [
           { name: "Mr. Ariel Rubidy" },
           { name: "Mr. Rowel Ramirez" },
           { name: "Mr. Michael Clemente" },
-          { name: "Mr. To be announced" },
-          { name: "Mr. To be announced" },
+          { name: "To be announced" },
+          { name: "To be announced" },
         ],
       },
       {
@@ -173,101 +182,83 @@ export const entourage: EntourageCategory[] = [
           { name: "Mrs. Jovelyn Ramirez" },
           { name: "Mrs. Misal Pardinez" },
           { name: "Mrs. Neneth Cabatay" },
-          { name: "Mrs. To be announced" },
+          { name: "To be announced" },
         ],
       },
     ],
   },
   {
-    id: "secondary-sponsors",
-    title: "Secondary Sponsors",
+    id: "invitation-page-two",
+    title: "Our Beloved Entourage",
     groups: [
       {
-        title: "",
-        members: [
-          { role: "Best Man", name: "Jake Balbalec" },
-          { role: "Matron of Honor", name: "Dianne Dela Cruz" },
-          { role: "Maid of Honor", name: "Sheila Mae Espinosa" },
-          { role: "Veil Sponsor", name: "Dianne Dela Cruz & Jerome Dela Cruz" },
-          { role: "Cord Sponsor", name: "Desiree Ann Dichoso & Carlo Aportadera" },
-          { role: "Candle Sponsor", name: "Sheila Mae Espinosa & Leo Neil Francisco" },
-        ],
+        title: "Best Man",
+        members: [{ name: "Jake Balbalec" }],
       },
-    ],
-  },
-  {
-    id: "groomsmen",
-    title: "Groomsmen",
-    groups: [
       {
-        title: "",
+        title: "Matron of Honor",
+        members: [{ name: "Dianne Dela Cruz" }],
+      },
+      {
+        title: "Maid of Honor",
+        members: [{ name: "Sheila Mae Espinosa" }],
+      },
+      {
+        title: "Groomsmen",
         members: [
-          { name: "Allanboy Asilo" },
+          { name: "Rusty Gayapanao" },
           { name: "John Royce Gayapanao" },
           { name: "Lenj Jesther Magsino" },
-          { name: "Jhasper Kim Ramirez" },
-          { name: "Rusty Gayapanao" },
           { name: "Jerome Dela Cruz" },
-          { name: "Karl Chester Aguas" },
-          { name: "Jhomar Dacera" },
+          { name: "Jhasper Kim Ramirez" },
           { name: "Leo Neil Famadico" },
           { name: "Carlo Aportadera" },
+          { name: "Karl Chester Aguas" },
           { name: "John Stephen Viente" },
         ],
       },
-    ],
-  },
-  {
-    id: "bridesmaids",
-    title: "Bridesmaids",
-    groups: [
       {
-        title: "",
+        title: "Bridesmaids",
         members: [
-          { name: "Freah Julia Vicente" },
+          { name: "Freah Julia Empleo" },
           { name: "Rizzalou Gayapanao" },
+          { name: "Rowena De Guzman" },
           { name: "Aileen Rubidy" },
           { name: "Jhayra Kate Ramirez" },
-          { name: "Rowena De Guzman" },
           { name: "Desiree Ann Dichoso" },
+          { name: "Leslie Navarro" },
           { name: "Christine Amiel Guirre" },
           { name: "Janine Prado" },
           { name: "Kathlene Damolo" },
-          { name: "Leslie Navarro" },
         ],
       },
-    ],
-  },
-  {
-    id: "bearers",
-    title: "Bearers",
-    groups: [
+      { title: "Ring Bearer", members: [{ name: "Tobias Jinn Dela Cruz" }] },
+      { title: "Coin Bearer", members: [{ name: "Ethan Salvador" }] },
+      { title: "Bible Bearer", members: [{ name: "Light Russen Gayapanao" }] },
+      { title: "Herald Bearer", members: [{ name: "Rizz Thea Gayapanao" }] },
       {
-        title: "",
-        members: [
-          { role: "Ring Bearer", name: "Light Russen Gayapanao" },
-          { role: "Coin Bearer", name: "Sieghart Aero Dela Cruz" },
-          { role: "Bible Bearer", name: "Tobias Jinn Dela Cruz" },
-          { role: "Herald Bearer", name: "Rizz Thea Gayapanao" },
-        ],
-      },
-    ],
-  },
-  {
-    id: "flower-girls",
-    title: "Flower Girls",
-    groups: [
-      {
-        title: "",
+        title: "Flower Girls",
         members: [
           { name: "Gianna Serene Gayapanao" },
-          { name: "Giana Nicole Saquilayan" },
+          { name: "Gianna Nicole Saquilayan" },
           { name: "Gabrielle Ann Dichoso" },
         ],
       },
     ],
   },
 ];
+
+export const friendlyReminders = {
+  adultsOnly:
+    "To give all our guests the opportunity to celebrate without having to worry about little eyes and ears, we politely request no children. Only the entourage and children of the immediate family are allowed.",
+  gifts:
+    "Your presence and prayers are the greatest gifts of all. But, should you still believe that a gift is worth giving, a small envelope for our future is a delightful blessing.",
+  plusOnes:
+    "We're keeping our guest list intentional and intimate. As much as we'd love to invite everyone, we are unable to accommodate plus ones at this time.",
+  principalSponsors: ["GENTLEMEN: Black suit and tie", "LADIES: Formal attire in champagne gold"],
+  guests:
+    "Guests are welcome to wear any color of their choice, except white and its shades, in formal or semi-formal attire.",
+};
 
 export const palette = [
   { name: "Deep Burgundy", hex: "#4A0E1E", note: "Romance and depth" },

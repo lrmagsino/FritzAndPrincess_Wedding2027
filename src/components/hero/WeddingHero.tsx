@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { clamp, useMediaQuery, useReducedMotion } from "@/lib/motion";
 import { useGuestName } from "@/lib/use-guest-name";
 import { couple } from "@/lib/wedding";
+import { scrollToId } from "@/lib/scroll";
 import { AnimatedGlobe } from "./AnimatedGlobe";
 import { AnimatedCompass } from "./AnimatedCompass";
 import { TravelRoute } from "./TravelRoute";
@@ -183,6 +184,25 @@ export function WeddingHero() {
             </>
           ) : null}
         </p>
+        <nav className="hero-quick-links enter" aria-label="Wedding quick links">
+          {[
+            { id: "countdown", label: "Countdown" },
+            { id: "calendar", label: "Wedding Calendar" },
+            { id: "rsvp", label: "RSVP" },
+          ].map((link) => (
+            <a
+              key={link.id}
+              className="hero-quick-link"
+              href={`#${link.id}`}
+              onClick={(event) => {
+                event.preventDefault();
+                scrollToId(link.id);
+              }}
+            >
+              {link.label}
+            </a>
+          ))}
+        </nav>
         <p className="scroll-prompt enter mt-5">
           <span className="label">Please scroll down</span>
           <svg

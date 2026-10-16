@@ -21,7 +21,7 @@ export function WeddingCalendar() {
       id="calendar"
       tone="light"
       eyebrow="Save the date"
-      title="April 2027"
+      title="Wedding Calendar"
       intro="Friday, April 23, 2027 is the day we begin our journey together."
       narrow
     >

@@ -4,15 +4,14 @@ import { PersonalizedGreeting } from "@/components/wedding/PersonalizedGreeting"
 import { OurStory } from "@/components/wedding/OurStory";
 import { EventDetailsSection } from "@/components/wedding/EventDetailsSection";
 import { Entourage } from "@/components/wedding/Entourage";
-import { DressCode } from "@/components/wedding/DressCode";
-import { WeddingTimeline } from "@/components/wedding/WeddingTimeline";
 import { WeddingCountdown } from "@/components/wedding/WeddingCountdown";
 import { WeddingCalendar } from "@/components/wedding/WeddingCalendar";
 import { WishesSection } from "@/components/wishes/WishesSection";
-import { GiftSection } from "@/components/wedding/GiftSection";
 import { RSVPSection } from "@/components/wedding/RSVPSection";
 import { GallerySection } from "@/components/wedding/GallerySection";
 import { WeddingFooter } from "@/components/wedding/WeddingFooter";
+import { FriendlyReminders } from "@/components/wedding/FriendlyReminders";
+import { JourneyAtmosphere } from "@/components/wedding/JourneyAtmosphere";
 
 export default function Home() {
   return (
@@ -23,18 +22,17 @@ export default function Home() {
       <WeddingNavigation />
       <main id="main">
         <WeddingHero />
+        <JourneyAtmosphere />
         <PersonalizedGreeting />
-        <OurStory />
-        <WeddingCalendar />
         <WeddingCountdown />
-        <EventDetailsSection />
+        <WeddingCalendar />
+        <OurStory />
         <Entourage />
-        <WeddingTimeline />
-        <DressCode />
-        <GiftSection />
+        <EventDetailsSection />
+        <FriendlyReminders />
         <WishesSection />
-        <RSVPSection />
         <GallerySection />
+        <RSVPSection />
       </main>
       <WeddingFooter />
     </>

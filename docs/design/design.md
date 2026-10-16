@@ -32,6 +32,7 @@ Assets in `public/brand`: `princess-fritz-logo.png` (burgundy and silver, transp
 ## Travel elements
 
 Compass, globe, airplane, and route are SVG, silver-gray line art with ivory detail and a restrained burgundy accent. They stay subtle and never sit above text.
+The shared journey atmosphere follows the page from the invitation toward the RSVP, with its route and airplane behind section content. Keep its globe and compass quiet, pause it when the tab is hidden, and leave only still decoration when reduced motion is requested.
 
 ## Buttons
 

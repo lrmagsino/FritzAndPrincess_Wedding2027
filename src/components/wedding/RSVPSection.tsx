@@ -10,10 +10,10 @@ export function RSVPSection() {
   return (
     <Section
       id="rsvp"
-      tone="light"
+      tone="dark"
       eyebrow="Kindly reply"
       title="RSVP"
-      intro="Please confirm your attendance through our RSVP form."
+      intro="Kindly RSVP by March 23, 2027. Please confirm your attendance through our RSVP form."
       narrow
     >
       <Reveal>
