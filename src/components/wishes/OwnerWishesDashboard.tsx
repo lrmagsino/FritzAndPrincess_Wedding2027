@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState, type FormEvent } from "react";
 import Link from "next/link";
 import { getSupabaseClient, type Wish } from "@/lib/supabase";
-import { WishEmailLogin, useWishAuth } from "./WishAuth";
+import { WishOwnerLogin, WishPasswordSettings, useWishAuth } from "./WishAuth";
 
 type AccessState = "checking" | "owner" | "unauthorized" | "error" | "unconfigured";
 const PAGE_SIZE = 1000;
@@ -234,10 +234,9 @@ export function OwnerWishesDashboard() {
         </Link>
         <h1>Owner Control</h1>
         <p>Sign in with an authorized wedding owner email address.</p>
-        <WishEmailLogin
+        <WishOwnerLogin
           redirectPath="/owner/wishes/"
-          buttonLabel="Email me an owner sign-in link"
-          intro="Only the two authorized wedding owner accounts can access this dashboard."
+          intro="Sign in with an authorized wedding owner account. Use your password or request a secure email link."
         />
       </main>
     );
@@ -277,6 +276,8 @@ export function OwnerWishesDashboard() {
           Sign out
         </button>
       </header>
+
+      <WishPasswordSettings />
 
       <section className="owner-wishes-counts" aria-label="Message counts">
         {(

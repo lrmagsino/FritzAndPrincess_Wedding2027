@@ -50,12 +50,14 @@ export function WeddingHero() {
     const total = route.getTotalLength();
 
     const place = (progress: number, routeOpacity = progress) => {
-      const at = total * progress;
+      if (!Number.isFinite(total) || total <= 0 || !Number.isFinite(progress)) return;
+      const safeProgress = clamp(progress);
+      const at = total * safeProgress;
       const pt = route.getPointAtLength(at);
       const ahead = route.getPointAtLength(Math.min(total, at + 2));
       const behind = route.getPointAtLength(Math.max(0, at - 2));
       const angle = (Math.atan2(ahead.y - behind.y, ahead.x - behind.x) * 180) / Math.PI;
-      route.style.opacity = routeOpacity.toFixed(3);
+      route.style.opacity = (Number.isFinite(routeOpacity) ? clamp(routeOpacity) : 0).toFixed(3);
       plane.setAttribute(
         "transform",
         `translate(${pt.x.toFixed(2)} ${pt.y.toFixed(2)}) rotate(${angle.toFixed(2)}) scale(${scene.plane})`,
@@ -88,7 +90,9 @@ export function WeddingHero() {
     let frame = 0;
     const update = () => {
       frame = 0;
-      const raw = clamp(window.scrollY / (hero.offsetHeight * 0.85));
+      const scrollRange = hero.getBoundingClientRect().height * 0.85;
+      const raw =
+        Number.isFinite(scrollRange) && scrollRange > 0 ? clamp(window.scrollY / scrollRange) : 0;
       setParallax(raw);
       place(START_PROGRESS + (1 - START_PROGRESS) * raw, raw);
     };

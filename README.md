@@ -75,7 +75,7 @@ The publishable Supabase key is intended for browser use and is constrained by R
    - [`supabase/migrations/20261013040000_name_only_wish_ownership.sql`](./supabase/migrations/20261013040000_name_only_wish_ownership.sql)
      For the existing project with the wishes table and previous security migrations already applied, run only `20261013040000_name_only_wish_ownership.sql`. If the earlier immediate-public migration is not applied, run `20261013030000_immediate_wishes_ownership.sql` first.
 3. In Supabase **Authentication → URL Configuration**, allow the local callback `http://localhost:3000/**` and the deployed callback `https://lrmagsino.github.io/FritzAndPrincess_Wedding2027/**`. Set the deployed URL as the Site URL when using the published website.
-4. Enable email sign-in/magic links under **Authentication → Sign In / Providers → Email** for the two wedding owners. Configure a production SMTP provider so they can receive sign-in links reliably.
+4. Enable email sign-in and password authentication under **Authentication → Sign In / Providers → Email**. Configure a production SMTP provider so owners can receive sign-in links reliably.
 
 Guests submit only a name and wish or prayer; no guest email or sign-in is required. Each new message receives a random private ownership token held in that browser and only its hash is stored in Supabase. The author can edit or soft-delete that message from the same browser. Clearing browser storage or switching devices loses that guest management access. Messages appear publicly as soon as they are submitted; public cards show the guest name, message, and submission time. Only the two authenticated accounts added to `wish_owners` can edit or soft-delete any message from `/owner/wishes`, linked as Owner Control at the end of navigation for those accounts only. Database functions and Row Level Security enforce these permissions; the publishable key is not an authorization secret. Existing messages are made public by the ownership migration, but legacy rows without a private token can only be managed by the owners or, for older authenticated posts, by their signed-in author.
 
@@ -92,6 +92,8 @@ on conflict (user_id) do nothing;
 ```
 
 Check that each statement inserted a row. If an email does not yet exist in `auth.users`, have that person sign in first and run the statement again. Do not grant owner access based on a typed name, URL value, or client-side setting.
+
+Owners can sign in at `/owner/wishes` with either a password or an email link. To set a password for an existing owner account, sign in with its email link once, open **Set or change password** in Owner Control, and save a password. After that, password sign-in works on other devices without requesting an email. Passwords are set only for the currently authenticated owner; the app has no public password signup.
 
 ### RSVP setup
 
